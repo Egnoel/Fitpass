@@ -12,10 +12,10 @@ import {
   useLeaflet,
 } from "@/components/ui/map";
 import { useMap } from "react-leaflet";
-import type { UPCOMING_SESSIONS_QUERYResult } from "@/sanity.types";
+import type { FILTERED_SESSIONS_QUERY_RESULT } from "@/sanity.types";
 
 // Venue type derived from the session query result
-type SessionVenue = NonNullable<UPCOMING_SESSIONS_QUERYResult[number]["venue"]>;
+type SessionVenue = NonNullable<FILTERED_SESSIONS_QUERY_RESULT[number]["venue"]>;
 
 interface ClassesMapSidebarProps {
   venues: SessionVenue[];
@@ -153,11 +153,10 @@ export function ClassesMapSidebar({
               position={[venue.address!.lat!, venue.address!.lng!]}
               icon={
                 <div
-                  className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-[3px] text-[13px] font-bold text-white shadow-lg transition-all ${
-                    isHighlighted
+                  className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-[3px] text-[13px] font-bold text-white shadow-lg transition-all ${isHighlighted
                       ? "scale-125 border-yellow-400 bg-yellow-500"
                       : "border-white bg-gradient-to-br from-primary to-primary/80 hover:scale-110"
-                  }`}
+                    }`}
                   style={{
                     boxShadow: isHighlighted
                       ? "0 4px 12px rgba(234, 179, 8, 0.5)"
