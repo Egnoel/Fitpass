@@ -479,11 +479,12 @@ export type AI_CATEGORIES_QUERY_RESULT = Array<{
 
 // Source: sanity/lib/queries/ai.ts
 // Variable: AI_USER_UPCOMING_BOOKINGS_QUERY
-// Query: *[  _type == "booking"  && user->clerkId == $clerkId  && status == "confirmed"  && classSession->startTime > now()] | order(classSession->startTime asc) [0...10] {  _id,  status,  createdAt,  classSession->{    _id,    startTime,    activity->{      name,      instructor,      duration    },    venue->{      name,      "city": address.city    }  }}
+// Query: *[  _type == "booking"  && user->clerkId == $clerkId  && status == "confirmed"  && classSession->startTime > now()] | order(classSession->startTime asc) [0...10] {  _id,  status,  createdAt,  attendedAt,  classSession->{    _id,    startTime,    activity->{      name,      instructor,      duration    },    venue->{      name,      "city": address.city    }  }}
 export type AI_USER_UPCOMING_BOOKINGS_QUERY_RESULT = Array<{
   _id: string;
   status: "attended" | "cancelled" | "confirmed" | "noShow" | null;
   createdAt: string | null;
+  attendedAt: string | null;
   classSession: {
     _id: string;
     startTime: string | null;
@@ -524,10 +525,11 @@ export type AI_USER_ALL_BOOKINGS_QUERY_RESULT = Array<{
 
 // Source: sanity/lib/queries/ai.ts
 // Variable: AI_USER_PAST_BOOKINGS_QUERY
-// Query: *[  _type == "booking"  && user->clerkId == $clerkId  && (status == "attended" || status == "noShow" || classSession->startTime < now())] | order(classSession->startTime desc) [0...10] {  _id,  status,  attendedAt,  classSession->{    _id,    startTime,    activity->{      name,      instructor,      duration    },    venue->{      name,      "city": address.city    }  }}
+// Query: *[  _type == "booking"  && user->clerkId == $clerkId  && (status == "attended" || status == "noShow" || classSession->startTime < now())] | order(classSession->startTime desc) [0...10] {  _id,  status,  createdAt,  attendedAt,  classSession->{    _id,    startTime,    activity->{      name,      instructor,      duration    },    venue->{      name,      "city": address.city    }  }}
 export type AI_USER_PAST_BOOKINGS_QUERY_RESULT = Array<{
   _id: string;
   status: "attended" | "cancelled" | "confirmed" | "noShow" | null;
+  createdAt: string | null;
   attendedAt: string | null;
   classSession: {
     _id: string;
@@ -1057,9 +1059,9 @@ declare module "@sanity/client" {
     '*[\n  _type == "classSession"\n  && startTime > now()\n  && status == "scheduled"\n] | order(startTime asc) [0...10] {\n  _id,\n  startTime,\n  maxCapacity,\n  "currentBookings": count(*[\n    _type == "booking"\n    && classSession._ref == ^._id\n    && status == "confirmed"\n  ]),\n  activity->{\n    name,\n    instructor,\n    duration,\n    tierLevel\n  },\n  venue->{\n    name,\n    "city": address.city\n  }\n}': AI_CLASS_SESSIONS_QUERY_RESULT;
     '*[\n  _type == "venue"\n] | order(name asc) [0...10] {\n  _id,\n  name,\n  description,\n  address,\n  amenities\n}': AI_SEARCH_VENUES_QUERY_RESULT;
     '*[\n  _type == "category"\n] | order(name asc) {\n  _id,\n  name,\n  description\n}': AI_CATEGORIES_QUERY_RESULT;
-    '*[\n  _type == "booking"\n  && user->clerkId == $clerkId\n  && status == "confirmed"\n  && classSession->startTime > now()\n] | order(classSession->startTime asc) [0...10] {\n  _id,\n  status,\n  createdAt,\n  classSession->{\n    _id,\n    startTime,\n    activity->{\n      name,\n      instructor,\n      duration\n    },\n    venue->{\n      name,\n      "city": address.city\n    }\n  }\n}': AI_USER_UPCOMING_BOOKINGS_QUERY_RESULT;
+    '*[\n  _type == "booking"\n  && user->clerkId == $clerkId\n  && status == "confirmed"\n  && classSession->startTime > now()\n] | order(classSession->startTime asc) [0...10] {\n  _id,\n  status,\n  createdAt,\n  attendedAt,\n  classSession->{\n    _id,\n    startTime,\n    activity->{\n      name,\n      instructor,\n      duration\n    },\n    venue->{\n      name,\n      "city": address.city\n    }\n  }\n}': AI_USER_UPCOMING_BOOKINGS_QUERY_RESULT;
     '*[\n  _type == "booking"\n  && user->clerkId == $clerkId\n] | order(classSession->startTime desc) [0...15] {\n  _id,\n  status,\n  createdAt,\n  attendedAt,\n  classSession->{\n    _id,\n    startTime,\n    activity->{\n      name,\n      instructor,\n      duration\n    },\n    venue->{\n      name,\n      "city": address.city\n    }\n  }\n}': AI_USER_ALL_BOOKINGS_QUERY_RESULT;
-    '*[\n  _type == "booking"\n  && user->clerkId == $clerkId\n  && (status == "attended" || status == "noShow" || classSession->startTime < now())\n] | order(classSession->startTime desc) [0...10] {\n  _id,\n  status,\n  attendedAt,\n  classSession->{\n    _id,\n    startTime,\n    activity->{\n      name,\n      instructor,\n      duration\n    },\n    venue->{\n      name,\n      "city": address.city\n    }\n  }\n}': AI_USER_PAST_BOOKINGS_QUERY_RESULT;
+    '*[\n  _type == "booking"\n  && user->clerkId == $clerkId\n  && (status == "attended" || status == "noShow" || classSession->startTime < now())\n] | order(classSession->startTime desc) [0...10] {\n  _id,\n  status,\n  createdAt,\n  attendedAt,\n  classSession->{\n    _id,\n    startTime,\n    activity->{\n      name,\n      instructor,\n      duration\n    },\n    venue->{\n      name,\n      "city": address.city\n    }\n  }\n}': AI_USER_PAST_BOOKINGS_QUERY_RESULT;
     '*[\n  _type == "booking"\n  && user->clerkId == $clerkId\n] | order(classSession->startTime desc) {\n  _id,\n  status,\n  createdAt,\n  attendedAt,\n  cancelledAt,\n  user->{\n    _id,\n    firstName,\n    lastName,\n    email\n  },\n  classSession->{\n    _id,\n    startTime,\n    activity->{\n      _id,\n      name,\n      slug,\n      duration,\n      "image": images[0]\n    },\n    venue->{\n      _id,\n      name,\n      "city": address.city\n    }\n  }\n}': USER_BOOKINGS_QUERY_RESULT;
     '*[\n  _type == "booking"\n  && user->clerkId == $clerkId\n  && status == "confirmed"\n  && classSession->startTime > now()\n] | order(classSession->startTime asc) {\n  _id,\n  status,\n  createdAt,\n  classSession->{\n    _id,\n    startTime,\n    activity->{\n      _id,\n      name,\n      slug,\n      duration,\n      "image": images[0]\n    },\n    venue->{\n      _id,\n      name,\n      "city": address.city\n    }\n  }\n}': USER_UPCOMING_BOOKINGS_QUERY_RESULT;
     '*[\n  _type == "userProfile"\n  && clerkId == $clerkId\n][0]{\n  _id,\n  clerkId,\n  email,\n  firstName,\n  lastName,\n  imageUrl,\n  subscriptionTier,\n  createdAt\n}': USER_PROFILE_BY_CLERK_ID_QUERY_RESULT;

@@ -29,6 +29,7 @@ interface ClassSessionItem {
 
 interface UserBookingItem {
   id: string;
+  sessionId?: string;
   status: string;
   bookedAt?: string;
   attendedAt?: string;
@@ -50,7 +51,7 @@ export type ToolResultItem =
 export interface ToolOutput {
   classes?: SearchClassItem[];
   sessions?: ClassSessionItem[];
-  venues?: Array<{ _id: string; name: string; [key: string]: unknown }>;
+  venues?: Array<{ _id: string; name: string;[key: string]: unknown }>;
   bookings?: UserBookingItem[];
   recommendations?: SearchClassItem[];
   [key: string]: unknown;

@@ -98,26 +98,23 @@ export function ToolCallUI({ toolPart, closeChat }: ToolCallUIProps) {
       {/* Status indicator */}
       <div className="flex gap-3">
         <div
-          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-            isComplete
+          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${isComplete
               ? "bg-emerald-100 dark:bg-emerald-900/30"
               : "bg-amber-100 dark:bg-amber-900/30"
-          }`}
+            }`}
         >
           <Icon
-            className={`h-4 w-4 ${
-              isComplete
+            className={`h-4 w-4 ${isComplete
                 ? "text-emerald-600 dark:text-emerald-400"
                 : "text-amber-600 dark:text-amber-400"
-            }`}
+              }`}
           />
         </div>
         <div
-          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm ${
-            isComplete
+          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm ${isComplete
               ? "bg-emerald-50 border border-emerald-200 dark:bg-emerald-950/30 dark:border-emerald-800"
               : "bg-amber-50 border border-amber-200 dark:bg-amber-950/30 dark:border-amber-800"
-          }`}
+            }`}
         >
           {isComplete ? (
             <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
@@ -125,11 +122,10 @@ export function ToolCallUI({ toolPart, closeChat }: ToolCallUIProps) {
             <Loader2 className="h-4 w-4 text-amber-600 dark:text-amber-400 animate-spin" />
           )}
           <span
-            className={`font-medium ${
-              isComplete
+            className={`font-medium ${isComplete
                 ? "text-emerald-700 dark:text-emerald-300"
                 : "text-amber-700 dark:text-amber-300"
-            }`}
+              }`}
           >
             {isComplete ? config.doneLabel : `${config.label}...`}
           </span>
@@ -155,7 +151,7 @@ export function ToolCallUI({ toolPart, closeChat }: ToolCallUIProps) {
                 <ResultCard
                   key={key}
                   variant="class"
-                  data={item as unknown as SearchClass}
+                  data={item as SearchClass}
                   onClose={closeChat}
                 />
               );
@@ -165,7 +161,7 @@ export function ToolCallUI({ toolPart, closeChat }: ToolCallUIProps) {
                 <ResultCard
                   key={key}
                   variant="session"
-                  data={item as unknown as ClassSession}
+                  data={item as ClassSession}
                   onClose={closeChat}
                 />
               );
@@ -175,7 +171,7 @@ export function ToolCallUI({ toolPart, closeChat }: ToolCallUIProps) {
                 <ResultCard
                   key={key}
                   variant="booking"
-                  data={item as unknown as UserBooking}
+                  data={item as UserBooking}
                   onClose={closeChat}
                 />
               );
