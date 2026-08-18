@@ -18,7 +18,13 @@ type DialogTriggerProps = DialogPrimitive.Trigger.Props & {
 
 function DialogTrigger({ asChild = false, children, ...props }: DialogTriggerProps) {
   if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children, { ...props })
+    return (
+      <DialogPrimitive.Trigger
+        data-slot="dialog-trigger"
+        render={children}
+        {...props}
+      />
+    )
   }
 
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props}>
